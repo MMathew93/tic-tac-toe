@@ -11,46 +11,59 @@ const gameBoard = (() => {
 //#########################displayController (module)###########################################//
 const displayController = (() => {
     //determines if the spot marked should be an X or an O based on who's turn it is
-    const boxes = document.querySelectorAll('.box');
-    playerTurnText = document.getElementById('playerTurnText');
-    playerTurnText.textContent = 'Player 1 Turn';
-    const markGrid= () => {
+    const markGrid = () => {
+        const boxes = document.querySelectorAll('.box');
+        playerTurnText = document.getElementById('playerTurnText');
+        playerTurnText.textContent = 'Player 1 Turn';
+        const markPlayer = player();
+        console.log("this1.0");
         document.addEventListener('click', function printToGrid(event) {
-            if(event.target.matches('.box')) {
-                for(let i= 0; i < boxes.length; i++) {
-                    if(event.target.matches(`.box${i}`)) {
-                        let newMark;
+            console.log(event.target.value);
+            console.log("this2.0")
+            if (event.target.matches('.box')) {
+                for (let i = 0; i < boxes.length; i++) {
+                    if (event.target.matches(`.box${i}`)) {
+                        if (markPlayer.winner() === false && event.target.textContent === '') {
+                            let newMark;
+                            if (markPlayer.playerTurn() === 'p1') {
+                                newMark = 'X';
+                                playerTurnText.textContent = 'Player 2 Turn'
+                            }
+                            if (markPlayer.playerTurn() === 'p2') {
+                                newmark = 'O';
+                                playerTurnText.textContent = 'Player 1 Turn'
+                            }
+                            //still need a winner call back here
+                            gameBoard.square.splice(i, 1, newMark);
+                            render();
+                        }
                     }
-                    if(playerTurn()=== 'p1') {
-                        newMark = 'X'
-                    }
-                    if(playerTurn()=== 'p2') {
-                        newmark = 'O'
-                    }
-                    return gameBoard.square.splice(i, 1, newMark)
                 }
             }
 
-    }, false);
-}
+        }, false);
 
 
 
 
 
-    //reset button
 
-    //prints X's and O's onto the screen by render function
-    /*Render() {
+        //reset button
 
-    };
-    */
+        //prints X's and O's onto the screen by render function
+        function render() {
+            const boxes = document.querySelectorAll('.box');
+            for (let i = 0; i < boxes.length; i++) {
+                boxes[i].textContent = gameBoard.square[i]
+            }
+        };
 
-    return {
-        markGrid
-    };
-    
-});
+
+        return {
+            markGrid
+        };
+    }
+})();
 
 
 //###############################players-2 (Factory)##########################################//
