@@ -16,10 +16,7 @@ const displayController = (() => {
         playerTurnText = document.getElementById('playerTurnText');
         playerTurnText.textContent = 'Player 1 Turn';
         const markPlayer = player();
-        console.log("this1.0");
         document.addEventListener('click', function printToGrid(event) {
-            console.log(event.target.value);
-            console.log("this2.0")
             if (event.target.matches('.box')) {
                 for (let i = 0; i < boxes.length; i++) {
                     if (event.target.matches(`.box${i}`)) {
@@ -33,10 +30,10 @@ const displayController = (() => {
                                 newmark = 'O';
                                 playerTurnText.textContent = 'Player 1 Turn'
                             }
-                            //still need a winner call back here
                             gameBoard.square.splice(i, 1, newMark);
                             render();
                         }
+                        //still need a winner call back here
                     }
                 }
             }
@@ -104,3 +101,5 @@ const player = () => {
         playerTurn
     }
 };
+
+displayController.markGrid();
