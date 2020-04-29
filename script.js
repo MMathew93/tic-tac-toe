@@ -20,17 +20,8 @@ const displayController = (() => {
             if (event.target.matches('.box')) {
                 for (let i = 0; i < boxes.length; i++) {
                     if (event.target.matches(`.box${i}`)) {
-                        if (markPlayer.winner() === false && event.target.textContent === '') {
-                            let newMark;
-                            if (markPlayer.playerTurn() === 'p1') {
-                                newMark = 'X';
-                                playerTurnText.textContent = 'Player 2 Turn'
-                            }
-                            if (markPlayer.playerTurn() === 'p2') {
-                                newmark = 'O';
-                                playerTurnText.textContent = 'Player 1 Turn'
-                            }
-                            //still need a winner call back here
+                        if (event.target.textContent === '') {
+                            let newMark = 'X';
                             gameBoard.square.splice(i, 1, newMark);
                             render();
                         }
