@@ -20,8 +20,17 @@ const displayController = (() => {
             if (event.target.matches('.box')) {
                 for (let i = 0; i < boxes.length; i++) {
                     if (event.target.matches(`.box${i}`)) {
-                        if (event.target.textContent === '') {
-                            let newMark = 'X';
+                        if (event.target.textContent === '') {                      //still need to check if a winner results here prior to marking
+                            let newMark;
+                            if (markPlayer.playerTurn() === 'p1') {
+                                newMark = 'X';
+                                playerTurnText.textContent = 'Player 2 Turn'
+                            }
+                            if (markPlayer.playerTurn() === 'p2') {
+                                newMark = 'O';
+                                playerTurnText.textContent = 'Player 1 Turn'
+                            }
+                                                                                    //still need a winner call back here
                             gameBoard.square.splice(i, 1, newMark);
                             render();
                         }
@@ -36,37 +45,40 @@ const displayController = (() => {
 
 
 
-        //reset button
+    //reset button
+    function reset() {
+        return gameBoard.square.textContent = ['', '', '', '', '', '', '', '', '']
+    }
 
-        //prints X's and O's onto the screen by render function
-        function render() {
-            const boxes = document.querySelectorAll('.box');
-            for (let i = 0; i < boxes.length; i++) {
-                boxes[i].textContent = gameBoard.square[i]
-            }
-        };
+    //prints X's and O's onto the screen by render function
+    function render() {
+        const boxes = document.querySelectorAll('.box');
+        for (let i = 0; i < boxes.length; i++) {
+            boxes[i].textContent = gameBoard.square[i]
+        }
+    };
 
 
-        return {
-            markGrid
-        };
+    return {
+        markGrid, reset
+    };
 })();
 
 
 //###############################players-2 (Factory)##########################################//
 const player = () => {
-    const numX = 0;
-    const numO = 0;
     const playerTurn = () => {
+        const numX = gameBoard.square.filter(x=> x === 'X').length;
+        const numO = gameBoard.square.filter(x=> x === 'O').length;
         if (numX > numO) {
             return 'p2'
         }
-        if (numx === numO) {
+        if (numX === numO) {
             return 'p1'
         }
     }
 
-    //player turns who starts where
+
 
     //winning combinations
     const winning = () => {
@@ -89,7 +101,7 @@ const player = () => {
     }
     return {
         playerTurn
-    }
+    };
 };
 
 displayController.markGrid()
