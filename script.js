@@ -30,16 +30,16 @@ const displayController = (() => {
                                 newmark = 'O';
                                 playerTurnText.textContent = 'Player 1 Turn'
                             }
+                            //still need a winner call back here
                             gameBoard.square.splice(i, 1, newMark);
                             render();
                         }
-                        //still need a winner call back here
                     }
                 }
             }
 
         }, false);
-
+    }
 
 
 
@@ -59,7 +59,6 @@ const displayController = (() => {
         return {
             markGrid
         };
-    }
 })();
 
 
@@ -102,4 +101,4 @@ const player = () => {
     }
 };
 
-displayController.markGrid();
+displayController.markGrid()
