@@ -20,7 +20,7 @@ const displayController = (() => {
             if (event.target.matches('.box')) {
                 for (let i = 0; i < boxes.length; i++) {
                     if (event.target.matches(`.box${i}`)) {
-                        if (event.target.textContent === '') {                      //still need to check if a winner results here prior to marking
+                        if (event.target.textContent === '') {
                             let newMark;
                             if (markPlayer.playerTurn() === 'p1') {
                                 newMark = 'X';
@@ -30,15 +30,16 @@ const displayController = (() => {
                                 newMark = 'O';
                                 playerTurnText.textContent = 'Player 1 Turn'
                             }
-                                                                                    //still need a winner call back here
+                            //still need a winner call back here
                             gameBoard.square.splice(i, 1, newMark);
                             render();
                         }
+                        markPlayer.winning();
                     }
                 }
             }
-
         }, false);
+        reset();
     }
 
 
@@ -47,8 +48,14 @@ const displayController = (() => {
 
     //reset button
     function reset() {
-        return gameBoard.square.textContent = ['', '', '', '', '', '', '', '', '']
+        const reset = document.getElementById('reset')
+        reset.addEventListener('click', function resetBoard() {
+            gameBoard.square = ['', '', '', '', '', '', '', '', ''];
+            playerTurnText.textContent = 'Player 1 Turn';
+            render()
+        }, false);
     }
+
 
     //prints X's and O's onto the screen by render function
     function render() {
@@ -60,7 +67,8 @@ const displayController = (() => {
 
 
     return {
-        markGrid, reset
+        markGrid,
+        reset
     };
 })();
 
@@ -68,8 +76,8 @@ const displayController = (() => {
 //###############################players-2 (Factory)##########################################//
 const player = () => {
     const playerTurn = () => {
-        const numX = gameBoard.square.filter(x=> x === 'X').length;
-        const numO = gameBoard.square.filter(x=> x === 'O').length;
+        const numX = gameBoard.square.filter(x => x === 'X').length;
+        const numO = gameBoard.square.filter(x => x === 'O').length;
         if (numX > numO) {
             return 'p2'
         }
@@ -79,28 +87,51 @@ const player = () => {
     }
 
 
-
     //winning combinations
     const winning = () => {
-        const winCombos = {
-            0: [0, 1, 2],
-            1: [3, 4, 5],
-            2: [6, 7, 8],
-            3: [0, 3, 6],
-            4: [1, 4, 7],
-            5: [2, 5, 8],
-            6: [0, 4, 8],
-            7: [2, 4, 6]
-        }
+        const winCombos = [
+            [0, 1, 2],
+            [3, 4, 5],
+            [6, 7, 8],
+            [0, 3, 6],
+            [1, 4, 7],
+            [2, 5, 8],
+            [0, 4, 8],
+            [2, 4, 6]
+        ]
         //need to check the board and count X and O locations
-
+        console.log('##############################################')
+        for (let i = 0; i < winCombos.length; i++) {
+            let matchedX = 0
+            let matchedO = 0
+            for (let j = 0; j < winCombos[i].length; j++) {
+                //console.log(gameBoard.square[winCombos[i][j]])
+                if (gameBoard.square[winCombos[i][j]] == "X") {
+                    matchedX += 1
+                    console.log(matchedX + ' Im p1')
+                    if (matchedX == 3) {
+                        alert('Player 1 Wins')
+                        break;
+                    }
+                }
+                if (gameBoard.square[winCombos[i][j]] == "O") {
+                    matchedO += 1
+                    console.log(matchedO + ' Im p2')
+                    if (matchedO == 3) {
+                        alert('Player 2 Wins')
+                        break;
+                    }
+                }
+            }
+        }
 
 
         //player win totals
 
     }
     return {
-        playerTurn
+        playerTurn,
+        winning
     };
 };
 
