@@ -100,15 +100,12 @@ const player = () => {
             [2, 4, 6]
         ]
         //need to check the board and count X and O locations
-        console.log('##############################################')
         for (let i = 0; i < winCombos.length; i++) {
             let matchedX = 0
             let matchedO = 0
             for (let j = 0; j < winCombos[i].length; j++) {
-                //console.log(gameBoard.square[winCombos[i][j]])
                 if (gameBoard.square[winCombos[i][j]] == "X") {
                     matchedX += 1
-                    console.log(matchedX + ' Im p1')
                     if (matchedX == 3) {
                         alert('Player 1 Wins')
                         break;
@@ -116,7 +113,7 @@ const player = () => {
                 }
                 if (gameBoard.square[winCombos[i][j]] == "O") {
                     matchedO += 1
-                    console.log(matchedO + ' Im p2')
+                    console.log(matchedO)
                     if (matchedO == 3) {
                         alert('Player 2 Wins')
                         break;
