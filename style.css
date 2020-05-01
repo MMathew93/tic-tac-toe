@@ -127,6 +127,11 @@ p:nth-child(2) {
     justify-content: space-between;
 }
 
+.scoreBoard {
+    display: flex;
+    justify-content: space-around;
+}
+
 .players {
     max-width: 150px;
     margin: 20px;

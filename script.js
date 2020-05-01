@@ -28,7 +28,6 @@ const displayController = (() => {
                                 newMark = 'O';
                                 playerTurnText.textContent = 'Player 1 Turn'
                             }
-                            //still need a winner call back here
                             gameBoard.square.splice(i, 1, newMark);
                             render();
                         }
@@ -58,8 +57,7 @@ const displayController = (() => {
 
 
     return {
-        markGrid,
-        reset
+        markGrid
     };
 })();
 //###############################players-2 (Factory)##########################################//
@@ -107,11 +105,17 @@ const player = () => {
         for (let i = 0; i < winCombos.length; i++) {
             let matchedX = 0
             let matchedO = 0
+            let p1Score = document.getElementById('player1Score')
+            let p2Score = document.getElementById('player2Score')
+            p1Score.innerHTML = parseInt(p1Score.innerHTML)
+            p2Score.innerHTML = parseInt(p2Score.innerHTML)
             for (let j = 0; j < winCombos[i].length; j++) {
                 if (gameBoard.square[winCombos[i][j]] == "X") {
                     matchedX += 1
                     if (matchedX == 3) {
                         playerTurnText.textContent = 'Player 1 is the winner!'
+                        p1Score.innerHTML++;
+                        document.removeEventListener('click', printToGrid, false);
                         break;
                     }
                 }
@@ -119,6 +123,8 @@ const player = () => {
                     matchedO += 1
                     if (matchedO == 3) {
                         playerTurnText.textContent = 'Player 2 is the winner!'
+                        p2Score.innerHTML++;
+                        document.removeEventListener('click', printToGrid, false);
                         break;
                     }
                 }
@@ -128,8 +134,6 @@ const player = () => {
                 }
             }
         }
-        //player win totals
-
     }
     return {
         playerTurn,
