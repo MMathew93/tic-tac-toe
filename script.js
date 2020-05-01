@@ -6,8 +6,6 @@ const gameBoard = (() => {
         square
     };
 })();
-
-
 //#########################displayController (module)###########################################//
 const displayController = (() => {
     //determines if the spot marked should be an X or an O based on who's turn it is
@@ -41,11 +39,6 @@ const displayController = (() => {
         }, false);
         reset();
     }
-
-
-
-
-
     //reset button
     function reset() {
         const reset = document.getElementById('reset')
@@ -55,8 +48,6 @@ const displayController = (() => {
             render()
         }, false);
     }
-
-
     //prints X's and O's onto the screen by render function
     function render() {
         const boxes = document.querySelectorAll('.box');
@@ -71,13 +62,11 @@ const displayController = (() => {
         reset
     };
 })();
-
-
 //###############################players-2 (Factory)##########################################//
 const player = () => {
     const playerTurn = () => {
-        const numX = gameBoard.square.filter(x => x === 'X').length;
-        const numO = gameBoard.square.filter(x => x === 'O').length;
+        const numX = numberOf().X
+        const numO = numberOf().O
         if (numX > numO) {
             return 'p2'
         }
@@ -86,7 +75,22 @@ const player = () => {
         }
     }
 
-
+    function numberOf() {
+        let numX = 0
+        let numO = 0
+        for (let i = 0; i < gameBoard.square.length; i++) {
+            if (gameBoard.square[i] === 'X') {
+                numX += 1
+            }
+            if (gameBoard.square[i] === 'O') {
+                numO += 1
+            }
+        }
+        return {
+            X: numX,
+            O: numO
+        }
+    }
     //winning combinations
     const winning = () => {
         const winCombos = [
@@ -107,22 +111,23 @@ const player = () => {
                 if (gameBoard.square[winCombos[i][j]] == "X") {
                     matchedX += 1
                     if (matchedX == 3) {
-                        alert('Player 1 Wins')
+                        playerTurnText.textContent = 'Player 1 is the winner!'
                         break;
                     }
                 }
                 if (gameBoard.square[winCombos[i][j]] == "O") {
                     matchedO += 1
-                    console.log(matchedO)
                     if (matchedO == 3) {
-                        alert('Player 2 Wins')
+                        playerTurnText.textContent = 'Player 2 is the winner!'
                         break;
                     }
                 }
+                if (numberOf().X === 5 && numberOf().O === 4) {
+                    playerTurnText.textContent = 'It\'s a tie!'
+                    break;
+                }
             }
         }
-
-
         //player win totals
 
     }
